@@ -1,0 +1,1 @@
+ALTER TYPE "public"."CREDIT_TRANSACTION_TYPE_ENUM" ADD VALUE 'Utilização extra' BEFORE 'Redefinição';
