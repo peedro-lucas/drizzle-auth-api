@@ -3,6 +3,7 @@
 import { database } from "../../config/database";
 import {usersTable} from '../../database/schemas/user'
 import {eq} from 'drizzle-orm'
+import bcrypt from "bcrypt";
 
 interface CreateUserDTO{
     name:string;
@@ -18,7 +19,13 @@ export class UserService{
             throw new Error('Usuario ja existe')
         }
 
-        const [newUser] = await database.insert(usersTable).values(data).returning()
+        const hashedPassword = await bcrypt.hash(data.password,10)
+
+        const [newUser] = await database.insert(usersTable)
+        .values({name:data.name, 
+                email:data.email, 
+                password:hashedPassword})
+        .returning()
 
         return newUser
     }
