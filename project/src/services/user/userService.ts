@@ -11,6 +11,12 @@ interface CreateUserDTO{
     password:string;
 }
 
+interface UpdateUserDTO{
+    name?:string;
+    email?:string;
+    password?:string;
+}
+
 export class UserService{
     async createUser(data:CreateUserDTO){
         const existingUser = await database.select().from(usersTable).where(eq(usersTable.email,data.email))
@@ -45,5 +51,30 @@ export class UserService{
         }
 
         return user
+    }
+
+    async updatedUser(id:string, data:UpdateUserDTO){
+        const existingUser = await database.select().from(usersTable).where(eq(usersTable.id, id))
+
+        if(existingUser.length === 0){
+            throw new Error("Usuário não encontrado")
+        }
+        
+        const payload = {
+            name:data.name,
+            email: data.email,
+            password:data.password,
+            updatedAt: new Date()
+        }
+
+        const updatedUser = await database.update(usersTable)
+        .set(payload)
+        .where(eq(usersTable.id,id))
+        .returning({ id: usersTable.id, 
+            name: usersTable.name, 
+            email:usersTable.email,
+            updatedAt: usersTable.updatedAt })
+
+        return updatedUser[0]
     }
 }

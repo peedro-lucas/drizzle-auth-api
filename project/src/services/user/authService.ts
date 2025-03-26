@@ -14,7 +14,6 @@ export class AuthService {
     const user = await database.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
 
     if (user.length === 0) {
-        console.log(1)
       throw new Error("E-mail ou senha inválidos");
     }
 
@@ -23,11 +22,13 @@ export class AuthService {
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
 
     if (!passwordMatch) {
-        console.log(2)
       throw new Error("E-mail ou senha inválidos");
     }
 
-    const token = jwt.sign({ id: foundUser.id, email: foundUser.email }, SECRET_KEY, {
+    const payload = { id: foundUser.id, 
+                    email: foundUser.email }
+
+    const token = jwt.sign(payload, SECRET_KEY, {
       expiresIn: "1h",
     });
 

@@ -39,7 +39,7 @@ export async function GetAllUsers(req:Request,res:Response){
 //FUNÇÃO DE BUSCAR UM USUARIO ESPECIFICO
 export async function GetUserById(req:Request,res:Response){
   try{
-    const {id} = req.params
+    const {id} = req.body
 
     const user = await userService.getUserById(id)
 
@@ -48,4 +48,18 @@ export async function GetUserById(req:Request,res:Response){
   }catch(err:any){
     return res.status(500).json(err.message)
   }
+}
+
+export async function UpdateUser(req:Request, res:Response){
+  try{
+  const {id} = req.body
+  const updateData = req.body
+
+  const updatedUser = await userService.updatedUser(id, updateData)
+
+  return res.status(200).json(updatedUser)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+}catch(err:any){
+  return res.status(500).json({error: err.message})
+}
 }
