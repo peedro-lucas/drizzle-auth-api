@@ -1,5 +1,5 @@
 import { loginSchema } from "../validators/authSchema";
-import { AuthService } from "../services/user/authService";
+import { AuthService } from "../services/authService";
 import {Request,Response} from 'express'
 
 const authService =  new AuthService()

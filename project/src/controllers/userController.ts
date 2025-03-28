@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import { UserService } from '../services/user/userService'
+import { UserService } from '../services/userService'
 import { userSchema } from '../validators/userSchema';
 
 const userService = new UserService();

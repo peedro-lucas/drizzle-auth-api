@@ -1,0 +1,1 @@
+ALTER TABLE "appointments" ALTER COLUMN "slot_id" SET DATA TYPE text;

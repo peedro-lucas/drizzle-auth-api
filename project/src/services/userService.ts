@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { database } from "../../config/database";
-import {usersTable} from '../../database/schemas/user'
+import { database } from "../config/database";
+import {usersTable} from '../database/schemas/user'
 import {eq} from 'drizzle-orm'
 import bcrypt from "bcrypt";
 
@@ -9,6 +9,7 @@ interface CreateUserDTO{
     name:string;
     email:string;
     password:string;
+    role?:string;
 }
 
 interface UpdateUserDTO{
@@ -30,7 +31,8 @@ export class UserService{
         const [newUser] = await database.insert(usersTable)
         .values({name:data.name, 
                 email:data.email, 
-                password:hashedPassword})
+                password:hashedPassword,
+                role:data.role})
         .returning()
 
         return newUser

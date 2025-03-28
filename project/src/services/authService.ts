@@ -1,5 +1,5 @@
-import { database } from "../../config/database";
-import {usersTable} from '../../database/schemas/user'
+import { database } from "../config/database";
+import {usersTable} from '../database/schemas/user'
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -26,7 +26,9 @@ export class AuthService {
     }
 
     const payload = { id: foundUser.id, 
-                    email: foundUser.email }
+                    email: foundUser.email,
+                    role:foundUser.role 
+                  };
 
     const token = jwt.sign(payload, SECRET_KEY, {
       expiresIn: "1h",
